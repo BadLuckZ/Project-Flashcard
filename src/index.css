@@ -1,6 +1,27 @@
 @import "tailwindcss";
 
-body {
+@theme {
+  --color-myblack: #080808;
+  --color-mygrey: #848482;
+  --color-mylightgrey: #dcd4d4;
+  --color-mylightgreen-secondary: #bcc4bc;
+  --color-mylightgreen-primary: #a7c5b9;
+  --color-mygreen: #759485;
+  --color-mydarkgreen: #44584f;
+}
+
+#root {
+  background: linear-gradient(
+    90deg,
+    rgb(94, 193, 232) 0%,
+    rgb(112, 223, 158) 50%,
+    rgb(255, 243, 137) 100%
+  );
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 100vh;
 }
