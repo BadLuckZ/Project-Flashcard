@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import CategoryPage from "./routes/CategoryPage.jsx";
 import EntryPage from "./routes/EntryPage.jsx";
+import GroupPage from "./routes/GroupPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/category",
     element: <CategoryPage />,
+  },
+  {
+    path: "/category/:targetGroup",
+    element: <GroupPage />,
   },
 ]);
 

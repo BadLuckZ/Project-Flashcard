@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../components/Button";
+import ActionButton from "../components/ActionButton";
 
 export default function EntryPage() {
   const navigate = useNavigate();
@@ -9,9 +9,11 @@ export default function EntryPage() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-16">
-      <h1 className="text-bold text-6xl font-bold text-center">My Flashcard</h1>
-      <Button text={"Start"} onClick={goToGroupPage}></Button>
+    <div className="flex flex-col items-center gap-16 px-4">
+      <h1 className="text-6xl font-bold text-center text-myblack">
+        My Flashcard
+      </h1>
+      <ActionButton text={"Start"} onClick={goToGroupPage} />
     </div>
   );
 }

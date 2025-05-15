@@ -8,8 +8,12 @@
   --color-mylightgreen-primary: #a7c5b9;
   --color-mygreen: #759485;
   --color-mydarkgreen: #44584f;
+
   --color-myyellow: #f2e2b1;
-  --color-mydarkyellow: #f2c078
+  --color-mydarkyellow: #f2c078;
+
+  --color-mylightblue: #a8f1ff;
+  --color-mydarkblue: #4F959D;
 }
 
 #root {
@@ -18,7 +22,7 @@
     var(--color-mydarkgreen) 0%,
     var(--color-mygreen) 20%,
     var(--color-mylightgreen-primary) 50%,
-    var(--color-mylightgreen-secondary) 80%,
+    var(--color-mylightgreen-secondary) 75%,
     var(--color-mylightgrey) 100%
   );
   margin: 0;
@@ -26,7 +30,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: auto;
   height: 100vh;
   font-family: "Kanit", sans-serif;
 }
