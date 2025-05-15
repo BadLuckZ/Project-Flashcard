@@ -1,21 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-myblack: #080808;
-  --color-mygrey: #848482;
   --color-mylightgrey: #dcd4d4;
   --color-mylightgreen-secondary: #bcc4bc;
   --color-mylightgreen-primary: #a7c5b9;
   --color-mygreen: #759485;
   --color-mydarkgreen: #44584f;
+  --color-myyellow: #f2e2b1;
 }
 
 #root {
   background: linear-gradient(
-    90deg,
-    rgb(94, 193, 232) 0%,
-    rgb(112, 223, 158) 50%,
-    rgb(255, 243, 137) 100%
+    45deg,
+    var(--color-mydarkgreen) 0%,
+    var(--color-mygreen) 20%,
+    var(--color-mylightgreen-primary) 50%,
+    var(--color-mylightgreen-secondary) 80%,
+    var(--color-mylightgrey) 100%
   );
   margin: 0;
   padding: 0;
@@ -24,4 +27,5 @@
   align-items: center;
   width: auto;
   height: 100vh;
+  font-family: "Kanit", sans-serif;
 }
