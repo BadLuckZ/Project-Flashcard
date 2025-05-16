@@ -1,12 +1,12 @@
 const CardButton = ({ text, onClick }) => {
   return (
     <button
-      className="border-2 bg-gradient-to-tr from-mydarkblue to-mylightblue
-        rounded-lg py-2 px-8 cursor-pointer text-2xl min-w-[150px]
-        w-fit text-myblack"
+      className="border-2 bg-gradient-to-tr from-myblue to-mylightblue
+        rounded-lg py-2 px-8 cursor-pointer text-xl sm:text-2xl w-[150px] sm:w-[180px]
+        text-myblack text-center"
       onClick={onClick}
     >
-      {text}
+      <span className="block w-full truncate">{text}</span>
     </button>
   );
 };

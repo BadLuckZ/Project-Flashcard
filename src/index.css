@@ -12,8 +12,8 @@
   --color-myyellow: #f2e2b1;
   --color-mydarkyellow: #f2c078;
 
-  --color-mylightblue: #a8f1ff;
-  --color-mydarkblue: #4F959D;
+  --color-mylightblue: #A1E3F6;
+  --color-myblue: #65C7F7;
 }
 
 #root {
@@ -27,9 +27,5 @@
   );
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   font-family: "Kanit", sans-serif;
 }
