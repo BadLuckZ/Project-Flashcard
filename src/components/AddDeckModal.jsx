@@ -1,13 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import loadDeckList from "../utils/functions";
 
-export default function AddDeckModal({ onClose, onSubmit }) {
+export default function AddDeckModal({ onClose, onAddDeck }) {
   const [deckName, setDeckName] = useState("");
+  const [deckList, setDeckList] = useState(loadDeckList());
+  const [isAddDeckError, setAddDeckError] = useState(false);
 
-  const handleSubmit = () => {
-    if (deckName.trim()) {
-      onSubmit(deckName.trim());
-      setDeckName("");
+  const handleDeckName = (e) => {
+    setDeckName(e.target.value);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const deck = deckName.trim();
+    if (!deck || deckList.includes(deck)) {
+      setAddDeckError(true);
+      return;
     }
+
+    const updatedList = [...deckList, deck];
+    setDeckList(updatedList);
+    localStorage.setItem("deckList", JSON.stringify(updatedList));
+    setDeckName("");
+    setAddDeckError(false);
+    onAddDeck(deck);
+    onClose();
   };
 
   return (
@@ -19,27 +36,35 @@ export default function AddDeckModal({ onClose, onSubmit }) {
 
       <div className="relative z-10 bg-white rounded-lg p-6 shadow-lg w-80">
         <h2 className="text-xl font-medium mb-4">Add New Deck</h2>
-        <input
-          type="text"
-          value={deckName}
-          onChange={(e) => setDeckName(e.target.value)}
-          placeholder="Enter deck name"
-          className="w-full p-2 border rounded mb-4"
-        />
-        <div className="flex justify-end gap-2">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded bg-white cursor-pointer border"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="px-4 py-2 border bg-mydarkgreen text-white rounded cursor-pointer"
-          >
-            Submit
-          </button>
-        </div>
+        <form onSubmit={onSubmit}>
+          <input
+            type="text"
+            value={deckName}
+            onChange={handleDeckName}
+            placeholder="Enter deck name"
+            className="w-full p-2 border rounded mb-3"
+          />
+          {isAddDeckError && (
+            <p className="text-sm text-red-600 text-center mb-2">
+              That name is already taken!!!
+            </p>
+          )}
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 rounded bg-white cursor-pointer border"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 border bg-mydarkgreen text-white rounded cursor-pointer"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
