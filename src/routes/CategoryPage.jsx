@@ -3,7 +3,7 @@ import ActionButton from "../components/ActionButton";
 import CardButton from "../components/CardButton";
 import AddDeckModal from "../components/AddDeckModal";
 import { useState } from "react";
-import loadDeckList from "../utils/functions";
+import { loadDeckList, updateDeckList } from "../utils/functions";
 
 export default function CategoryPage() {
   const navigate = useNavigate();
@@ -11,24 +11,24 @@ export default function CategoryPage() {
   const [isRemoveDeck, setRemoveDeck] = useState(false);
   const [deckList, setDeckList] = useState(loadDeckList());
 
-  const goBacktoEntry = () => {
-    navigate("/");
-  };
-
-  const openModal = () => {
-    setOpenModal(true);
-  };
-
   const closeModal = () => {
     setOpenModal(false);
   };
 
   const handleAddDeck = (newDeck) => {
-    setDeckList((prev) => [...prev, newDeck]);
+    setDeckList((prev) => {
+      const updated = [...prev, newDeck];
+      updateDeckList(updated);
+      return updated;
+    });
   };
 
   const handleDeleteDeck = (deckToDelete) => {
-    setDeckList((prev) => prev.filter((deck) => deck !== deckToDelete));
+    setDeckList((prev) => {
+      const updated = prev.filter((deck) => deck !== deckToDelete);
+      updateDeckList(updated);
+      return updated;
+    });
   };
 
   return (
@@ -38,7 +38,7 @@ export default function CategoryPage() {
       )}
       <div className="relative z-0 flex flex-col items-center justify-center gap-8 min-h-screen p-4">
         <h1 className="font-bold text-4xl sm:text-5xl text-center text-myblack">
-          Pick Your Deck!
+          {isRemoveDeck ? "Remove Your Deck!" : "Pick Your Deck!"}
         </h1>
 
         {deckList.length === 0 ? (
@@ -46,7 +46,21 @@ export default function CategoryPage() {
             No Decks Here...
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div
+            className={`grid grid-cols-${Math.min(
+              1,
+              deckList.length
+            )} sm:grid-cols-${Math.min(
+              2,
+              deckList.length
+            )} md:grid-cols-${Math.min(
+              3,
+              deckList.length
+            )} lg:grid-cols-${Math.min(
+              4,
+              deckList.length
+            )} gap-4 max-w-6xl mx-auto`}
+          >
             {deckList.map((cur_group) => (
               <div
                 key={cur_group}
@@ -71,15 +85,24 @@ export default function CategoryPage() {
         )}
 
         <div className="flex gap-4 flex-wrap flex-col md:flex-row justify-center items-center">
-          {!isRemoveDeck && (
-            <>
-              <ActionButton text={"Back"} onClick={goBacktoEntry} />
-              <ActionButton text={"Add"} onClick={openModal} />
-            </>
-          )}
+          <ActionButton
+            text={"Back"}
+            onClick={() => {
+              navigate("/");
+            }}
+            isHidden={isRemoveDeck}
+          />
+          <ActionButton
+            text={"Add"}
+            onClick={() => {
+              setOpenModal(true);
+            }}
+            isHidden={isRemoveDeck}
+          />
           <ActionButton
             text={isRemoveDeck ? "Done" : "Remove"}
             onClick={() => setRemoveDeck(!isRemoveDeck)}
+            isHidden={deckList.length == 0 && !isRemoveDeck}
           />
         </div>
       </div>

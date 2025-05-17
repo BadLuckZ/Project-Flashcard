@@ -1,5 +1,5 @@
 import { useState } from "react";
-import loadDeckList from "../utils/functions";
+import { loadDeckList } from "../utils/functions";
 
 export default function AddDeckModal({ onClose, onAddDeck }) {
   const [deckName, setDeckName] = useState("");
@@ -7,23 +7,24 @@ export default function AddDeckModal({ onClose, onAddDeck }) {
   const [isAddDeckError, setAddDeckError] = useState(false);
 
   const handleDeckName = (e) => {
+    e.preventDefault();
+    setAddDeckError(false);
     setDeckName(e.target.value);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const deck = deckName.trim();
-    if (!deck || deckList.includes(deck)) {
+
+    const trimmedDeckName = deckName.trim();
+    if (!trimmedDeckName || deckList.includes(trimmedDeckName)) {
       setAddDeckError(true);
       return;
     }
 
-    const updatedList = [...deckList, deck];
-    setDeckList(updatedList);
-    localStorage.setItem("deckList", JSON.stringify(updatedList));
+    onAddDeck(trimmedDeckName);
+
     setDeckName("");
     setAddDeckError(false);
-    onAddDeck(deck);
     onClose();
   };
 
@@ -46,13 +47,14 @@ export default function AddDeckModal({ onClose, onAddDeck }) {
           />
           {isAddDeckError && (
             <p className="text-lg text-myred text-center">
-              That name is already taken!!!
+              {deckName == ""
+                ? "Please enter the name!!!"
+                : "That name is already taken!!!"}
             </p>
           )}
           <div className="flex justify-end gap-2 flex-col-reverse sm:flex-row">
             <button
-              type="button"
-              onClick={onClose}
+              type="submit"
               className="px-4 py-2 rounded bg-white cursor-pointer border text-lg sm:text-xl"
             >
               Cancel
