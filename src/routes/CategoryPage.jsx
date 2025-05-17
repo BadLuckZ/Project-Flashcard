@@ -3,7 +3,12 @@ import ActionButton from "../components/ActionButton";
 import CardButton from "../components/CardButton";
 import AddDeckModal from "../components/AddDeckModal";
 import { useState } from "react";
-import { loadDeckList, updateDeckList } from "../utils/functions";
+import {
+  addDecktoList,
+  loadDeckList,
+  removeDeckFromList,
+  updateDeckList,
+} from "../utils/functions";
 
 export default function CategoryPage() {
   const navigate = useNavigate();
@@ -11,30 +16,33 @@ export default function CategoryPage() {
   const [isRemoveDeck, setRemoveDeck] = useState(false);
   const [deckList, setDeckList] = useState(loadDeckList());
 
-  const closeModal = () => {
-    setOpenModal(false);
-  };
-
-  const handleAddDeck = (newDeck) => {
+  const handleAddDeck = (deckName) => {
     setDeckList((prev) => {
-      const updated = [...prev, newDeck];
-      updateDeckList(updated);
-      return updated;
+      const newDeckList = [...prev, deckName];
+      updateDeckList(newDeckList);
+      addDecktoList(deckName);
+      return newDeckList;
     });
   };
 
-  const handleDeleteDeck = (deckToDelete) => {
+  const handleDeleteDeck = (deckName) => {
     setDeckList((prev) => {
-      const updated = prev.filter((deck) => deck !== deckToDelete);
-      updateDeckList(updated);
-      return updated;
+      const newDeckList = prev.filter((deck) => deck !== deckName);
+      updateDeckList(newDeckList);
+      removeDeckFromList(deckName);
+      return newDeckList;
     });
   };
 
   return (
     <>
       {isOpenModal && (
-        <AddDeckModal onClose={closeModal} onAddDeck={handleAddDeck} />
+        <AddDeckModal
+          onClose={() => {
+            setOpenModal(false);
+          }}
+          onAddDeck={handleAddDeck}
+        />
       )}
       <div className="relative z-0 flex flex-col items-center justify-center gap-8 min-h-screen p-4">
         <h1 className="font-bold text-4xl sm:text-5xl text-center text-myblack">
@@ -86,16 +94,16 @@ export default function CategoryPage() {
 
         <div className="flex gap-4 flex-wrap flex-col md:flex-row justify-center items-center">
           <ActionButton
-            text={"Back"}
+            text={"Add"}
             onClick={() => {
-              navigate("/");
+              setOpenModal(true);
             }}
             isHidden={isRemoveDeck}
           />
           <ActionButton
-            text={"Add"}
+            text={"Back"}
             onClick={() => {
-              setOpenModal(true);
+              navigate("/");
             }}
             isHidden={isRemoveDeck}
           />

@@ -43,7 +43,9 @@ export default function AddDeckModal({ onClose, onAddDeck }) {
             value={deckName}
             onChange={handleDeckName}
             placeholder="Enter deck name"
-            className="w-full p-2 border rounded text-lg sm:text-xl"
+            className={`w-full p-2 border rounded text-lg sm:text-xl ${
+              isAddDeckError ? "border-myred" : ""
+            }`}
           />
           {isAddDeckError && (
             <p className="text-lg text-myred text-center">
@@ -54,7 +56,8 @@ export default function AddDeckModal({ onClose, onAddDeck }) {
           )}
           <div className="flex justify-end gap-2 flex-col-reverse sm:flex-row">
             <button
-              type="submit"
+              type="button"
+              onClick={onClose}
               className="px-4 py-2 rounded bg-white cursor-pointer border text-lg sm:text-xl"
             >
               Cancel

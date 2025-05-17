@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import CategoryPage from "./routes/CategoryPage.jsx";
 import EntryPage from "./routes/EntryPage.jsx";
-import GroupPage from "./routes/GroupPage.jsx";
+import DeckPage from "./routes/DeckPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,8 +16,8 @@ const router = createBrowserRouter([
     element: <CategoryPage />,
   },
   {
-    path: "/category/:targetGroup",
-    element: <GroupPage />,
+    path: "/category/:deckParam",
+    element: <DeckPage />,
   },
 ]);
 
