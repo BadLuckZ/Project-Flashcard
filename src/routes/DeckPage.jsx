@@ -3,11 +3,14 @@ import { loadDeck, updateDeck } from "../utils/functions";
 import ActionButton from "../components/ActionButton";
 import { useState } from "react";
 import AddCardModal from "../components/AddCardModal";
+import Card from "../components/Card";
 
 export default function DeckPage() {
   const { deckParam } = useParams();
   const [isOpenModal, setOpenModal] = useState(false);
   const [currentDeck, setCurrentDeck] = useState(loadDeck(deckParam));
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [isLastCard, setLastCard] = useState(false);
 
   const wordCount = currentDeck.length;
 
@@ -15,8 +18,17 @@ export default function DeckPage() {
     setCurrentDeck((prev) => {
       const updatedCardList = [...prev, card];
       updateDeck(deckParam, updatedCardList);
+      setLastCard(false);
       return updatedCardList;
     });
+  };
+
+  const handleNextCard = () => {
+    if (currentIdx < currentDeck.length - 1) {
+      setCurrentIdx((prev) => prev + 1);
+    } else {
+      setLastCard(true);
+    }
   };
 
   return (
@@ -39,18 +51,10 @@ export default function DeckPage() {
             This deck is empty...
           </p>
         ) : (
-          <div>
-            {currentDeck.map((card, idx) => {
-              return (
-                <div key={card.name}>
-                  <p key={card.name + idx}>{card.name}</p>
-                  <p key={card.name + card.type}>{card.type}</p>
-                  <p key={card.name + card.meaning}>{card.meaning}</p>
-                  <p key={card.name + card.sentence}>{card.sentence}</p>
-                </div>
-              );
-            })}
-          </div>
+          <Card
+            key={currentDeck[currentIdx].name}
+            card={currentDeck[currentIdx]}
+          />
         )}
         <ActionButton
           text={"Add"}
@@ -58,6 +62,8 @@ export default function DeckPage() {
             setOpenModal(true);
           }}
         />
+
+        <ActionButton text={"Next"} onClick={handleNextCard} />
       </div>
     </>
   );
