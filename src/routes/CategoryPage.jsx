@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ActionButton from "../components/ActionButton";
 import CardButton from "../components/CardButton";
 import AddDeckModal from "../components/AddDeckModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   addDecktoList,
   loadDeckList,
@@ -38,12 +38,11 @@ export default function CategoryPage() {
     <>
       {isOpenModal && (
         <AddDeckModal
-          onClose={() => {
-            setOpenModal(false);
-          }}
+          onClose={() => setOpenModal(false)}
           onAddDeck={handleAddDeck}
         />
       )}
+
       <div className="relative z-0 flex flex-col items-center justify-center gap-8 min-h-screen p-4">
         <h1 className="font-bold text-4xl sm:text-5xl text-center text-myblack">
           {isRemoveDeck ? "Remove Your Deck!" : "Pick Your Deck!"}
@@ -69,20 +68,20 @@ export default function CategoryPage() {
               deckList.length
             )} gap-4 max-w-6xl mx-auto`}
           >
-            {deckList.map((cur_group) => (
+            {deckList.map((deckName) => (
               <div
-                key={cur_group}
+                key={deckName}
                 className="relative flex justify-center items-center gap-2"
               >
                 <CardButton
-                  text={cur_group}
-                  onClick={() => navigate(`/category/${cur_group}`)}
+                  text={deckName}
+                  onClick={() => navigate(`/category/${deckName}`)}
                   isRemoveDeck={isRemoveDeck}
                 />
                 {isRemoveDeck && (
                   <button
                     className="border-2 bg-myyellow rounded py-0.5 px-2 cursor-pointer"
-                    onClick={() => handleDeleteDeck(cur_group)}
+                    onClick={() => handleDeleteDeck(deckName)}
                   >
                     X
                   </button>
@@ -92,25 +91,16 @@ export default function CategoryPage() {
           </div>
         )}
 
-        <div className="flex gap-4 flex-wrap flex-col md:flex-row justify-center items-center">
+        <div className="flex gap-2 flex-wrap flex-col md:flex-row justify-center items-center">
           <ActionButton
-            text={"Add"}
-            onClick={() => {
-              setOpenModal(true);
-            }}
-            isHidden={isRemoveDeck}
-          />
-          <ActionButton
-            text={"Back"}
-            onClick={() => {
-              navigate("/");
-            }}
+            text="Add"
+            onClick={() => setOpenModal(true)}
             isHidden={isRemoveDeck}
           />
           <ActionButton
             text={isRemoveDeck ? "Done" : "Remove"}
             onClick={() => setRemoveDeck(!isRemoveDeck)}
-            isHidden={deckList.length == 0 && !isRemoveDeck}
+            isHidden={deckList.length === 0 && !isRemoveDeck}
           />
         </div>
       </div>
