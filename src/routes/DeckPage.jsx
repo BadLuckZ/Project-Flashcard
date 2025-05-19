@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { loadDeck, updateDeck } from "../utils/functions";
 import ActionButton from "../components/ActionButton";
 import { useEffect, useState } from "react";
@@ -6,7 +6,6 @@ import AddCardModal from "../components/AddCardModal";
 import Card from "../components/Card";
 
 export default function DeckPage() {
-  const navigate = useNavigate();
   const { deckParam } = useParams();
   const [isOpenModal, setOpenModal] = useState(false);
   const [currentDeck, setCurrentDeck] = useState(loadDeck(deckParam));

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ActionButton from "../components/ActionButton";
 import CardButton from "../components/CardButton";
 import AddDeckModal from "../components/AddDeckModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   addDecktoList,
   loadDeckList,

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getCardNameFromDeck } from "../utils/functions";
 import { wordTypes } from "../utils/constant";
 
 export default function AddCardModal({ onClose, onAddCard, deckParam }) {
-  const [card, setCard] = useState({});
   const [cardName, setCardName] = useState("");
   const [cardType, setCardType] = useState("");
   const [cardMeaning, setCardMeaning] = useState("");
@@ -71,7 +70,9 @@ export default function AddCardModal({ onClose, onAddCard, deckParam }) {
       setCardSentenceError(false);
 
       const newCard = {
-        name: trimmedName,
+        name:
+          trimmedName.charAt(0).toUpperCase() +
+          trimmedName.slice(1, trimmedName.length).toLowerCase(),
         type: trimmedType,
         meaning: trimmedMeaning,
         sentence: trimmedSentence,
