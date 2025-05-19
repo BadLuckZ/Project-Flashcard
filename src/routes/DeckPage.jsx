@@ -75,11 +75,11 @@ export default function DeckPage() {
 
       <div className="relative z-0 flex flex-col items-center justify-center gap-8 min-h-screen p-4">
         <div className="flex gap-2 items-center">
-          <h1 className="font-bold text-4xl sm:text-5xl text-center text-myblack">
+          <h1 className="font-bold text-4xl md:text-5xl text-center text-myblack">
             {deckParam}
           </h1>
           {wordCount !== 0 && (
-            <h2 className="font-semibold text-3xl sm:text-4xl">
+            <h2 className="font-semibold text-2xl md:text-3xl">
               ({currentIdx + 1}/{wordCount})
             </h2>
           )}
@@ -97,7 +97,7 @@ export default function DeckPage() {
         )}
 
         {wordCount > 1 && (
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-col md:flex-row">
             <ActionButton
               text="Previous"
               onClick={handlePreviousCard}
@@ -116,7 +116,7 @@ export default function DeckPage() {
           </div>
         )}
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-col md:flex-row">
           <ActionButton text="Add" onClick={() => setOpenModal(true)} />
           <ActionButton
             text="Remove"

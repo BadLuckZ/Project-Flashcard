@@ -27,7 +27,7 @@ export const addDecktoList = (deckName) => {
 };
 
 export const removeDeckFromList = (deckName) => {
-  updateDeck(deckName, []);
+  localStorage.removeItem(deckName);
 };
 
 export const getCardNameFromDeck = (deckName) => {
