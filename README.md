@@ -1,3 +1,6 @@
 # My Flashcard Project
 
-🚧🚧 Under Construction 🚧🚧
+## Tool Documentations
+- [Vite](https://vite.dev/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [React](https://react.dev/)
