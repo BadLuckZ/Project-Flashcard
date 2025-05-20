@@ -37,14 +37,14 @@ export default function EditDeckModal({
       <div className="absolute inset-0 bg-opacity-50 backdrop-blur-sm" />
 
       <div
-        className="relative z-10 bg-white rounded-lg p-6 shadow-lg w-80 
+        className="relative z-10 bg-white rounded-lg p-6 shadow-lg w-100
         flex flex-col justify-center gap-4"
       >
         <h2 className="text-2xl md:text-3xl font-medium">Edit Deck</h2>
         <form onSubmit={onSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <h3 className="text-xl">From</h3>
-            <p className="w-full p-2 border rounded text-lg md:text-xl">
+            <p className="w-full text-xl md:text-2xl font-medium text-mydarkgreen">
               {previousDeckName}
             </p>
           </div>

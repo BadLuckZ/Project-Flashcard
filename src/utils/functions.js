@@ -38,3 +38,5 @@ export const getCardNameFromDeck = (deckName) => {
   }
   return names;
 };
+
+export const fixCardInformation = (oldCard, newCard) => {};

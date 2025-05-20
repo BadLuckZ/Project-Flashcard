@@ -1,13 +1,15 @@
 import { useParams } from "react-router-dom";
-import { loadDeck, updateDeck } from "../utils/functions";
+import { fixCardInformation, loadDeck, updateDeck } from "../utils/functions";
 import ActionButton from "../components/ActionButton";
 import { useEffect, useState } from "react";
 import AddCardModal from "../components/AddCardModal";
 import Card from "../components/Card";
+import EditCardModal from "../components/EditCardModal";
 
 export default function DeckPage() {
   const { deckParam } = useParams();
-  const [isOpenModal, setOpenModal] = useState(false);
+  const [isOpenAddModal, setOpenAddModal] = useState(false);
+  const [isOpenEditModal, setOpenEditModal] = useState(false);
   const [currentDeck, setCurrentDeck] = useState(loadDeck(deckParam));
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isLastCard, setLastCard] = useState(false);
@@ -31,6 +33,16 @@ export default function DeckPage() {
     if (currentIdx > 0) {
       setCurrentIdx((prev) => prev - 1);
     }
+  };
+
+  const handleEditCard = (newCard) => {
+    const newDeck = loadDeck(deckParam);
+    newDeck[currentIdx].name = newCard.name;
+    newDeck[currentIdx].type = newCard.type;
+    newDeck[currentIdx].meaning = newCard.meaning;
+    newDeck[currentIdx].sentence = newCard.sentence;
+
+    setCurrentDeck(newDeck);
   };
 
   const handleRemoveCard = () => {
@@ -65,10 +77,18 @@ export default function DeckPage() {
 
   return (
     <>
-      {isOpenModal && (
+      {isOpenAddModal && (
         <AddCardModal
-          onClose={() => setOpenModal(false)}
+          onClose={() => setOpenAddModal(false)}
           onAddCard={handleAddCard}
+          deckParam={deckParam}
+        />
+      )}
+      {isOpenEditModal && (
+        <EditCardModal
+          onClose={() => setOpenEditModal(false)}
+          previousCard={currentDeck[currentIdx]}
+          onEditCard={handleEditCard}
           deckParam={deckParam}
         />
       )}
@@ -117,7 +137,12 @@ export default function DeckPage() {
         )}
 
         <div className="flex gap-2 flex-col md:flex-row">
-          <ActionButton text="Add" onClick={() => setOpenModal(true)} />
+          <ActionButton text="Add" onClick={() => setOpenAddModal(true)} />
+          <ActionButton
+            text="Edit"
+            onClick={() => setOpenEditModal(true)}
+            isHidden={wordCount === 0}
+          />
           <ActionButton
             text="Remove"
             onClick={handleRemoveCard}

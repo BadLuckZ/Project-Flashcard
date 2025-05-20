@@ -12,13 +12,13 @@ export default function AddCardModal({ onClose, onAddCard, deckParam }) {
   const [isCardTypeError, setCardTypeError] = useState(false);
   const [isCardMeaningError, setCardMeaningError] = useState(false);
   const [isCardSentenceError, setCardSentenceError] = useState(false);
-  const [isCardError, setCardError] = useState(false);
+  const [isAddCardError, setAddCardError] = useState(false);
 
   const cardNames = getCardNameFromDeck(deckParam);
 
   const handleCardName = (e) => {
     setCardNameError(false);
-    setCardError(false);
+    setAddCardError(false);
     setCardName(e.target.value);
   };
   const handleCardType = (e) => {
@@ -63,7 +63,7 @@ export default function AddCardModal({ onClose, onAddCard, deckParam }) {
     }
 
     if (!cardNames.includes(trimmedName.toLowerCase())) {
-      setCardError(false);
+      setAddCardError(false);
       setCardNameError(false);
       setCardTypeError(false);
       setCardMeaningError(false);
@@ -80,7 +80,7 @@ export default function AddCardModal({ onClose, onAddCard, deckParam }) {
       onAddCard(newCard);
       onClose();
     } else {
-      setCardError(true);
+      setAddCardError(true);
     }
   };
 
@@ -150,7 +150,7 @@ export default function AddCardModal({ onClose, onAddCard, deckParam }) {
               Enter a sentence!!!
             </p>
           )}
-          {isCardError && (
+          {isAddCardError && (
             <p className="text-lg text-myred text-center">
               That word is already in the deck!!!
             </p>
