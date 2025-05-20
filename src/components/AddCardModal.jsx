@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { getCardNameFromDeck } from "../utils/functions";
+import { hasCardInDeck } from "../utils/functions";
 import { wordTypes } from "../utils/constant";
 
-export default function AddCardModal({ onClose, onAddCard, deckParam }) {
+export default function AddCardModal({ onClose, onAddCard, deck }) {
   const [cardName, setCardName] = useState("");
   const [cardType, setCardType] = useState("");
   const [cardMeaning, setCardMeaning] = useState("");
@@ -14,8 +14,6 @@ export default function AddCardModal({ onClose, onAddCard, deckParam }) {
   const [isCardSentenceError, setCardSentenceError] = useState(false);
   const [isAddCardError, setAddCardError] = useState(false);
 
-  const cardNames = getCardNameFromDeck(deckParam);
-
   const handleCardName = (e) => {
     setCardNameError(false);
     setAddCardError(false);
@@ -23,6 +21,7 @@ export default function AddCardModal({ onClose, onAddCard, deckParam }) {
   };
   const handleCardType = (e) => {
     setCardTypeError(false);
+    setAddCardError(false);
     setCardType(e.target.value);
   };
   const handleCardMeaning = (e) => {
@@ -62,22 +61,22 @@ export default function AddCardModal({ onClose, onAddCard, deckParam }) {
       return;
     }
 
-    if (!cardNames.includes(trimmedName.toLowerCase())) {
+    const newCard = {
+      name:
+        trimmedName.charAt(0).toUpperCase() +
+        trimmedName.slice(1, trimmedName.length).toLowerCase(),
+      type: trimmedType,
+      meaning: trimmedMeaning,
+      sentence: trimmedSentence,
+    };
+
+    if (!hasCardInDeck(deck, newCard)) {
+      onAddCard(newCard);
       setAddCardError(false);
       setCardNameError(false);
       setCardTypeError(false);
       setCardMeaningError(false);
       setCardSentenceError(false);
-
-      const newCard = {
-        name:
-          trimmedName.charAt(0).toUpperCase() +
-          trimmedName.slice(1, trimmedName.length).toLowerCase(),
-        type: trimmedType,
-        meaning: trimmedMeaning,
-        sentence: trimmedSentence,
-      };
-      onAddCard(newCard);
       onClose();
     } else {
       setAddCardError(true);

@@ -30,13 +30,18 @@ export const removeDeckFromList = (deckName) => {
   localStorage.removeItem(deckName);
 };
 
-export const getCardNameFromDeck = (deckName) => {
-  const names = [];
-  const targetDeck = loadDeck(deckName);
-  for (let card of targetDeck) {
-    names.push(card.name.toLowerCase());
+export const hasCardInDeck = (deckList, card) => {
+  if (deckList.length == 0) return false;
+  for (let i = 0; i < deckList.length; i++) {
+    const c = deckList[i];
+    if (isSameCard(c, card)) return true;
   }
-  return names;
+  return false;
 };
 
-export const fixCardInformation = (oldCard, newCard) => {};
+export const isSameCard = (card1, card2) => {
+  return (
+    card1.name.toLowerCase() == card2.name.toLowerCase() &&
+    card1.type == card2.type
+  );
+};

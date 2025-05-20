@@ -1,44 +1,47 @@
 import { useState } from "react";
 import { wordTypes } from "../utils/constant";
-import { getCardNameFromDeck } from "../utils/functions";
+import { hasCardInDeck, isSameCard } from "../utils/functions";
 
 export default function EditCardModal({
   onClose,
   previousCard,
   onEditCard,
-  deckParam,
+  deck,
 }) {
   const [isNewCardNameError, setNewCardNameError] = useState(false);
   const [isNewCardMeaningError, setNewCardMeaningError] = useState(false);
   const [isNewCardSentenceError, setNewCardSentenceError] = useState(false);
+  const [isEditCardError, setEditCardError] = useState(false);
 
   const [newCardName, setNewCardName] = useState(previousCard.name);
   const [newCardType, setNewCardType] = useState(previousCard.type);
   const [newCardMeaning, setNewCardMeaning] = useState(previousCard.meaning);
   const [newCardSentence, setNewCardSentence] = useState(previousCard.sentence);
 
-  const cardNames = getCardNameFromDeck(deckParam);
-
   const handleCardName = (e) => {
     e.preventDefault();
     setNewCardNameError(false);
+    setEditCardError(false);
     setNewCardName(e.target.value);
   };
 
   const handleCardType = (e) => {
     e.preventDefault();
+    setEditCardError(false);
     setNewCardType(e.target.value);
   };
 
   const handleCardMeaning = (e) => {
     e.preventDefault();
     setNewCardMeaningError(false);
+    setEditCardError(false);
     setNewCardMeaning(e.target.value);
   };
 
   const handleCardSentence = (e) => {
     e.preventDefault();
     setNewCardSentenceError(false);
+    setEditCardError(false);
     setNewCardSentence(e.target.value);
   };
 
@@ -65,23 +68,40 @@ export default function EditCardModal({
       return;
     }
 
-    const isDuplicateName =
-      trimmedName.toLowerCase() !== previousCard.name.toLowerCase() &&
-      cardNames.includes(trimmedName.toLowerCase());
+    const newCard = {
+      name:
+        trimmedName.charAt(0).toUpperCase() +
+        trimmedName.slice(1).toLowerCase(),
+      type: trimmedType,
+      meaning: trimmedMeaning,
+      sentence: trimmedSentence,
+    };
 
-    if (!isDuplicateName) {
-      const newCard = {
-        name:
-          trimmedName.charAt(0).toUpperCase() +
-          trimmedName.slice(1).toLowerCase(),
-        type: trimmedType,
-        meaning: trimmedMeaning,
-        sentence: trimmedSentence,
-      };
-      onEditCard(newCard);
-      onClose();
+    if (isSameCard(previousCard, newCard)) {
+      if (
+        previousCard.meaning === newCardMeaning &&
+        previousCard.sentence === newCardSentence
+      ) {
+        setEditCardError(true);
+      } else {
+        onEditCard(newCard);
+        setNewCardNameError(false);
+        setNewCardMeaningError(false);
+        setNewCardSentenceError(false);
+        setEditCardError(false);
+        onClose();
+      }
     } else {
-      setNewCardNameError(true);
+      if (!hasCardInDeck(deck, newCard)) {
+        onEditCard(newCard);
+        setNewCardNameError(false);
+        setNewCardMeaningError(false);
+        setNewCardSentenceError(false);
+        setEditCardError(false);
+        onClose();
+      } else {
+        setEditCardError(true);
+      }
     }
   };
 
@@ -123,14 +143,9 @@ export default function EditCardModal({
               value={newCardType}
               onChange={handleCardType}
               className={`w-full p-2 border rounded text-lg sm:text-xl`}
-              defaultValue={previousCard.type}
             >
               {wordTypes.map((type) => (
-                <option
-                  key={type}
-                  value={type}
-                  disabled={previousCard.type === type}
-                >
+                <option key={type} value={type}>
                   {type}
                 </option>
               ))}
@@ -172,6 +187,11 @@ export default function EditCardModal({
               </p>
             )}
           </div>
+          {isEditCardError && (
+            <p className="text-lg text-myred text-center">
+              That word is already in the deck!!!
+            </p>
+          )}
 
           {/* Buttons */}
           <div className="flex justify-end gap-2 flex-col-reverse sm:flex-row">

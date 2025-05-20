@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { fixCardInformation, loadDeck, updateDeck } from "../utils/functions";
+import { loadDeck, updateDeck } from "../utils/functions";
 import ActionButton from "../components/ActionButton";
 import { useEffect, useState } from "react";
 import AddCardModal from "../components/AddCardModal";
@@ -81,7 +81,7 @@ export default function DeckPage() {
         <AddCardModal
           onClose={() => setOpenAddModal(false)}
           onAddCard={handleAddCard}
-          deckParam={deckParam}
+          deck={currentDeck}
         />
       )}
       {isOpenEditModal && (
@@ -89,7 +89,7 @@ export default function DeckPage() {
           onClose={() => setOpenEditModal(false)}
           previousCard={currentDeck[currentIdx]}
           onEditCard={handleEditCard}
-          deckParam={deckParam}
+          deck={currentDeck}
         />
       )}
 
