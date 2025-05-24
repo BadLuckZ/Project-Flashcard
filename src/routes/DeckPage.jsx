@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { loadDeck, updateDeck } from "../utils/functions";
+import { loadDeck, shuffleDeck, updateDeck } from "../utils/functions";
 import ActionButton from "../components/ActionButton";
 import { useEffect, useState } from "react";
 import AddCardModal from "../components/AddCardModal";
@@ -64,6 +64,14 @@ export default function DeckPage() {
 
   const handleReset = () => {
     setCurrentIdx(0);
+    handleShuffle();
+  };
+
+  const handleShuffle = () => {
+    const shuffledDeck = shuffleDeck([...currentDeck]);
+    setCurrentDeck(shuffledDeck);
+    setCurrentIdx(0);
+    setLastCard(false);
   };
 
   useEffect(() => {
@@ -132,22 +140,17 @@ export default function DeckPage() {
             <ActionButton
               text="Previous"
               onClick={handlePreviousCard}
-              isHidden={wordCount <= 1 || currentIdx === 0}
-            />
-            <ActionButton
-              text="Reset"
-              onClick={handleReset}
-              isHidden={wordCount === 1 || !isLastCard}
+              isHidden={currentIdx === 0}
             />
             <ActionButton
               text="Next"
               onClick={handleNextCard}
-              isHidden={wordCount <= 1 || isLastCard}
+              isHidden={isLastCard}
             />
           </div>
         )}
 
-        <div className="flex gap-2 flex-col md:flex-row">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           <ActionButton text="Add" onClick={() => setOpenAddModal(true)} />
           <ActionButton
             text="Edit"
@@ -161,6 +164,7 @@ export default function DeckPage() {
             }}
             isHidden={wordCount === 0}
           />
+          <ActionButton text="Reset" onClick={handleReset} />
         </div>
         <ActionButton
           text="Back to Category"

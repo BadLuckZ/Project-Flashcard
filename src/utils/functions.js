@@ -45,3 +45,19 @@ export const isSameCard = (card1, card2) => {
     card1.type == card2.type
   );
 };
+
+export const shuffleDeck = (deck) => {
+  let currentIndex = deck.length;
+  let randomIndex = 0;
+
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [deck[currentIndex], deck[randomIndex]] = [
+      deck[randomIndex],
+      deck[currentIndex],
+    ];
+  }
+  return deck;
+};
