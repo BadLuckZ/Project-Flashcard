@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import AddCardModal from "../components/AddCardModal";
 import Card from "../components/Card";
 import EditCardModal from "../components/EditCardModal";
+import RemoveModal from "../components/RemoveModal";
 
 export default function DeckPage() {
   const { deckParam } = useParams();
   const navigate = useNavigate();
   const [isOpenAddModal, setOpenAddModal] = useState(false);
   const [isOpenEditModal, setOpenEditModal] = useState(false);
+  const [isOpenRemoveModal, setOpenRemoveModal] = useState(false);
   const [currentDeck, setCurrentDeck] = useState(loadDeck(deckParam));
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isLastCard, setLastCard] = useState(false);
@@ -93,6 +95,14 @@ export default function DeckPage() {
           deck={currentDeck}
         />
       )}
+      {isOpenRemoveModal && (
+        <RemoveModal
+          onClose={() => setOpenRemoveModal(false)}
+          onRemove={handleRemoveCard}
+          name={currentDeck[currentIdx].name}
+          type={"Card"}
+        />
+      )}
 
       <div className="relative z-0 flex flex-col items-center justify-center gap-8 min-h-screen p-4">
         <div className="flex gap-2 items-center">
@@ -146,7 +156,9 @@ export default function DeckPage() {
           />
           <ActionButton
             text="Remove"
-            onClick={handleRemoveCard}
+            onClick={() => {
+              setOpenRemoveModal(true);
+            }}
             isHidden={wordCount === 0}
           />
         </div>

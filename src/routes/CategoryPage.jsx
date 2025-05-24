@@ -12,15 +12,18 @@ import {
   updateDeckList,
 } from "../utils/functions";
 import EditDeckModal from "../components/EditDeckModal";
+import RemoveModal from "../components/RemoveModal";
 
 export default function CategoryPage() {
   const navigate = useNavigate();
   const [isOpenAddModal, setOpenAddModal] = useState(false);
   const [isOpenEditModal, setOpenEditModal] = useState(false);
+  const [isOpenRemoveModal, setOpenRemoveModal] = useState(false);
   const [isRemoveDeck, setRemoveDeck] = useState(false);
   const [isEditDeck, setEditDeck] = useState(false);
   const [deckList, setDeckList] = useState(loadDeckList());
   const [deckToEdit, setDeckToEdit] = useState("");
+  const [deckToRemove, setDeckToRemove] = useState("");
 
   const handleAddDeck = (deckName) => {
     setDeckList((prev) => {
@@ -70,6 +73,16 @@ export default function CategoryPage() {
           previousDeckName={deckToEdit}
         />
       )}
+      {isOpenRemoveModal && (
+        <RemoveModal
+          onClose={() => {
+            setOpenRemoveModal(false);
+          }}
+          onRemove={handleDeleteDeck}
+          name={deckToRemove}
+          type={"Deck"}
+        />
+      )}
 
       <div className="relative z-0 flex flex-col items-center justify-center gap-8 min-h-screen p-4">
         <h1 className="font-bold text-4xl md:text-5xl text-center text-myblack">
@@ -99,7 +112,10 @@ export default function CategoryPage() {
                 {isRemoveDeck && (
                   <p
                     className="cursor-pointer text-xl md:text-2xl"
-                    onClick={() => handleDeleteDeck(deckName)}
+                    onClick={() => {
+                      setOpenRemoveModal(true);
+                      setDeckToRemove(deckName);
+                    }}
                   >
                     ❌
                   </p>
