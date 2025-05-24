@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { loadDeckList } from "../utils/functions";
+import { limitCharacterNumber } from "../utils/constant";
 
 export default function EditDeckModal({
   onClose,
@@ -20,7 +21,11 @@ export default function EditDeckModal({
     e.preventDefault();
 
     const trimmedNewDeckName = newDeckName.trim();
-    if (!trimmedNewDeckName || deckList.includes(trimmedNewDeckName)) {
+    if (
+      !trimmedNewDeckName ||
+      trimmedNewDeckName.length > limitCharacterNumber ||
+      deckList.includes(trimmedNewDeckName)
+    ) {
       setEditDeckError(true);
       return;
     }
@@ -59,12 +64,19 @@ export default function EditDeckModal({
                 isEditDeckError ? "border-myred" : ""
               }`}
             />
+            {!isEditDeckError && (
+              <p className="text-lg text-center">
+                No more than {limitCharacterNumber} Characters
+              </p>
+            )}
             {isEditDeckError && (
               <p className="text-lg text-myred text-center">
                 {newDeckName == ""
                   ? "Please enter the name!!!"
                   : newDeckName == previousDeckName
                   ? "That's the same!!!"
+                  : newDeckName.trim().length > limitCharacterNumber
+                  ? `I said no more than ${limitCharacterNumber}!!!`
                   : "That name is already taken!!!"}
               </p>
             )}

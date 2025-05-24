@@ -28,7 +28,9 @@ export default function Card({ card }) {
             <p className="text-2xl md:text-3xl text-mydarkgreen font-semibold">
               Meaning:
             </p>
-            <p className="text-xl md:text-2xl text-myblack">{card.meaning}</p>
+            <p className="text-xl md:text-2xl text-myblack break-words">
+              {card.meaning}
+            </p>
           </div>
           <div className="flex flex-col gap-2 justify-center w-full rotate-y-180">
             <p className="text-2xl md:text-3xl text-mydarkgreen font-semibold">
@@ -41,10 +43,10 @@ export default function Card({ card }) {
         </>
       ) : (
         <>
-          <h2 className="text-3xl md:text-4xl font-bold text-myblack text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-myblack text-center break-words">
             {card.name}
           </h2>
-          <h3 className="text-2xl md:text-3xl text-gray-700 text-center">
+          <h3 className="text-2xl md:text-3xl text-gray-700 text-center break-words">
             ({card.type})
           </h3>
         </>

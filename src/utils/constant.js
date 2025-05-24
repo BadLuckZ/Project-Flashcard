@@ -7,3 +7,5 @@ export const wordTypes = [
   "Conjunction",
   "Idiom",
 ];
+
+export const limitCharacterNumber = 10;
