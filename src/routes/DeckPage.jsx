@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { loadDeck, updateDeck } from "../utils/functions";
 import ActionButton from "../components/ActionButton";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import EditCardModal from "../components/EditCardModal";
 
 export default function DeckPage() {
   const { deckParam } = useParams();
+  const navigate = useNavigate();
   const [isOpenAddModal, setOpenAddModal] = useState(false);
   const [isOpenEditModal, setOpenEditModal] = useState(false);
   const [currentDeck, setCurrentDeck] = useState(loadDeck(deckParam));
@@ -149,6 +150,12 @@ export default function DeckPage() {
             isHidden={wordCount === 0}
           />
         </div>
+        <ActionButton
+          text="Back to Category"
+          onClick={() => {
+            navigate("/category");
+          }}
+        />
       </div>
     </>
   );

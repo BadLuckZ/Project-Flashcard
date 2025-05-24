@@ -1,4 +1,4 @@
-const CardButton = ({ text, onClick, isDisabled }) => {
+const CardButton = ({ text, onClick, isDisabled = false, className = "" }) => {
   return (
     <button
       className={`border-2 bg-gradient-to-tr from-myblue to-mylightblue

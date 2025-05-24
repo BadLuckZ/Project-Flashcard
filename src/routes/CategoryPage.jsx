@@ -143,6 +143,13 @@ export default function CategoryPage() {
             isHidden={(deckList.length === 0 && !isRemoveDeck) || isEditDeck}
           />
         </div>
+        <ActionButton
+          text="Back to Home"
+          onClick={() => {
+            navigate("/");
+          }}
+          isHidden={isEditDeck || isRemoveDeck}
+        />
       </div>
     </>
   );
