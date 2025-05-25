@@ -1,15 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { loadDeck, shuffleDeck, updateDeck } from "../utils/functions";
 import ActionButton from "../components/ActionButton";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddCardModal from "../components/AddCardModal";
 import Card from "../components/Card";
 import EditCardModal from "../components/EditCardModal";
 import RemoveModal from "../components/RemoveModal";
+import { NotificationContext } from "../context/NotificationContext";
 
 export default function DeckPage() {
   const { deckParam } = useParams();
   const navigate = useNavigate();
+  const { addNotification } = useContext(NotificationContext);
   const [isOpenAddModal, setOpenAddModal] = useState(false);
   const [isOpenEditModal, setOpenEditModal] = useState(false);
   const [isOpenRemoveModal, setOpenRemoveModal] = useState(false);
@@ -20,6 +22,7 @@ export default function DeckPage() {
   const wordCount = currentDeck.length;
 
   const handleAddCard = (card) => {
+    addNotification(true, `You have added ${card.name} to ${deckParam}.`);
     setCurrentDeck((prev) => [...prev, card]);
     setLastCard(false);
   };
@@ -45,10 +48,18 @@ export default function DeckPage() {
     newDeck[currentIdx].meaning = newCard.meaning;
     newDeck[currentIdx].sentence = newCard.sentence;
 
+    addNotification(
+      true,
+      `You have changed ${currentDeck[currentIdx].name}'s information.`
+    );
     setCurrentDeck(newDeck);
   };
 
   const handleRemoveCard = () => {
+    addNotification(
+      true,
+      `You have remove ${currentDeck[currentIdx].name} from ${deckParam}.`
+    );
     setCurrentDeck((prevDeck) => {
       const updatedDeck = prevDeck.filter((_, idx) => idx !== currentIdx);
       const newIdx = currentIdx > 0 ? currentIdx - 1 : 0;
@@ -71,7 +82,6 @@ export default function DeckPage() {
     const shuffledDeck = shuffleDeck([...currentDeck]);
     setCurrentDeck(shuffledDeck);
     setCurrentIdx(0);
-    setLastCard(false);
   };
 
   useEffect(() => {
@@ -123,7 +133,6 @@ export default function DeckPage() {
             </h2>
           )}
         </div>
-
         {wordCount === 0 ? (
           <p className="text-3xl sm:text-4xl text-mydarkgreen font-semibold text-center">
             This deck is empty...
@@ -150,21 +159,29 @@ export default function DeckPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <ActionButton text="Add" onClick={() => setOpenAddModal(true)} />
-          <ActionButton
-            text="Edit"
-            onClick={() => setOpenEditModal(true)}
-            isHidden={wordCount === 0}
-          />
-          <ActionButton
-            text="Remove"
-            onClick={() => {
-              setOpenRemoveModal(true);
-            }}
-            isHidden={wordCount === 0}
-          />
-          <ActionButton text="Reset" onClick={handleReset} />
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
+            <ActionButton text="Add" onClick={() => setOpenAddModal(true)} />
+            <ActionButton
+              text="Edit"
+              onClick={() => setOpenEditModal(true)}
+              isHidden={wordCount === 0}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <ActionButton
+              text="Remove"
+              onClick={() => {
+                setOpenRemoveModal(true);
+              }}
+              isHidden={wordCount === 0}
+            />
+            <ActionButton
+              text="Reset"
+              onClick={handleReset}
+              isHidden={wordCount <= 1}
+            />
+          </div>
         </div>
         <ActionButton
           text="Back to Category"

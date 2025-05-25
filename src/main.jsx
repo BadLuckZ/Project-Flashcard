@@ -5,6 +5,7 @@ import "./index.css";
 import CategoryPage from "./routes/CategoryPage.jsx";
 import EntryPage from "./routes/EntryPage.jsx";
 import DeckPage from "./routes/DeckPage.jsx";
+import { NotificationProvider } from "./context/NotificationContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <NotificationProvider>
+      <RouterProvider router={router} />
+    </NotificationProvider>
   </StrictMode>
 );

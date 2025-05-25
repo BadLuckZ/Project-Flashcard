@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ActionButton from "../components/ActionButton";
 import CardButton from "../components/CardButton";
 import AddDeckModal from "../components/AddDeckModal";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   addDecktoList,
   loadDeck,
@@ -13,9 +13,11 @@ import {
 } from "../utils/functions";
 import EditDeckModal from "../components/EditDeckModal";
 import RemoveModal from "../components/RemoveModal";
+import { NotificationContext } from "../context/NotificationContext";
 
 export default function CategoryPage() {
   const navigate = useNavigate();
+  const { addNotification } = useContext(NotificationContext);
   const [isOpenAddModal, setOpenAddModal] = useState(false);
   const [isOpenEditModal, setOpenEditModal] = useState(false);
   const [isOpenRemoveModal, setOpenRemoveModal] = useState(false);
@@ -32,6 +34,7 @@ export default function CategoryPage() {
       addDecktoList(deckName);
       return newDeckList;
     });
+    addNotification(true, `You have added ${deckName} to your decklist.`);
   };
 
   const handleEditDeck = (previousDeckName, newDeckName) => {
@@ -46,6 +49,10 @@ export default function CategoryPage() {
     ];
     setDeckList(updatedDeckList);
     updateDeckList(updatedDeckList);
+    addNotification(
+      true,
+      `You have renamed ${previousDeckName} to ${newDeckName}.`
+    );
   };
 
   const handleDeleteDeck = (deckName) => {
@@ -55,6 +62,10 @@ export default function CategoryPage() {
       updateDeckList(newDeckList);
       return newDeckList;
     });
+    addNotification(
+      true,
+      `You have removed ${deckName} deck from your decklist.`
+    );
   };
 
   return (
