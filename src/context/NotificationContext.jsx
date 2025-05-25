@@ -34,7 +34,7 @@ export const NotificationProvider = ({ children }) => {
 
   const addNotification = (success, description) => {
     const id = Date.now();
-    setNotifications((prev) => [...prev, { id, success, description }]);
+    setNotifications((prev) => [{ id, success, description }, ...prev]);
 
     setTimeout(() => {
       setNotifications((prev) => prev.filter((n) => n.id !== id));

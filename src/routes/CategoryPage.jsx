@@ -95,7 +95,7 @@ export default function CategoryPage() {
         />
       )}
 
-      <div className="relative z-0 flex flex-col items-center justify-center gap-8 min-h-screen p-4">
+      <div className="relative z-0 flex flex-col items-center min-h-screen h-fit justify-center gap-8 p-4">
         <h1 className="font-bold text-4xl md:text-5xl text-center text-myblack">
           {isRemoveDeck
             ? "Remove Your Deck!"
