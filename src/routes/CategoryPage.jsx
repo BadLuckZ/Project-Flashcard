@@ -29,7 +29,7 @@ export default function CategoryPage() {
 
   const handleAddDeck = (deckName) => {
     setDeckList((prev) => {
-      const newDeckList = [...prev, deckName];
+      const newDeckList = [...prev, deckName].sort();
       updateDeckList(newDeckList);
       addDecktoList(deckName);
       return newDeckList;
@@ -46,7 +46,7 @@ export default function CategoryPage() {
     const updatedDeckList = [
       ...deckList.filter((dName) => dName !== previousDeckName),
       newDeckName,
-    ];
+    ].sort();
     setDeckList(updatedDeckList);
     updateDeckList(updatedDeckList);
     addNotification(
@@ -57,7 +57,7 @@ export default function CategoryPage() {
 
   const handleDeleteDeck = (deckName) => {
     setDeckList((prev) => {
-      const newDeckList = prev.filter((deck) => deck !== deckName);
+      const newDeckList = prev.filter((deck) => deck !== deckName).sort();
       removeDeckFromList(deckName);
       updateDeckList(newDeckList);
       return newDeckList;
@@ -76,7 +76,6 @@ export default function CategoryPage() {
           onAddDeck={handleAddDeck}
         />
       )}
-
       {isOpenEditModal && (
         <EditDeckModal
           onClose={() => setOpenEditModal(false)}
